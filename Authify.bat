@@ -5,16 +5,13 @@ setlocal
 REM net start MySQL80 >nul 2>&1
 
 :: 1. Start Spring Boot backend (Authify.jar)
-echo Launching Spring Boot Backend...
-start "" /min java -jar "D:\Authify_project\Authify.jar"
+start "" /min cmd /c "java -jar D:\Authentication_System\Authify.jar >nul 2>&1"
 
 :: 2. Start Vite React frontend
-echo Launching React Frontend...
-cd /d "D:\Authify_project\Authify_frontend"
-start "" /min cmd /c "npm run dev"
+cd /d "D:\Authentication_System\Authify_frontend"
+start "" /min cmd /c "npm run dev >nul 2>&1"
 
 :: 3. Open Chrome browser to the frontend
-echo Opening browser...
 start "" chrome "http://localhost:5173"
 
 :: 4. Wait until Chrome closes
@@ -25,10 +22,8 @@ if %ERRORLEVEL%==0 (
     goto WAIT
 )
 
-:: 5. Kill backend and frontend servers
-echo Closing backend and frontend servers...
+:: 5. Kill backend and frontend servers after Chrome closes
 taskkill /F /IM java.exe >nul 2>&1
 taskkill /F /IM node.exe >nul 2>&1
 
-echo All servers stopped.
 exit
